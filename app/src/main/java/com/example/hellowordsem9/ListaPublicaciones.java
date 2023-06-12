@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 
 import com.example.hellowordsem9.Adapters.PublicacionAdapter;
 import com.example.hellowordsem9.Adapters.libroAdapter;
@@ -23,23 +25,32 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-public class ListaLibroActivity extends AppCompatActivity {
+
+public class ListaPublicaciones extends AppCompatActivity {
     public RecyclerView rv;
     List<Publicacion> publicaciones= new ArrayList<>();
+    Button crear;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_libro);
+        setContentView(R.layout.activity_lista_publicaciones);
+        crear = findViewById(R.id.btn_nueva);
+        crear.setOnClickListener(view -> {
+//            int sum = numbers.stream().reduce(0, Integer::sum);
+//            tvSum.setText(String.valueOf(sum));
 
-        cargarData();
+            Intent intent = new Intent(getApplicationContext(), CrearPublicacionActivity.class);
+            startActivity(intent);
+
+        });
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         // Aquí puedes llamar al método que deseas ejecutar cuando la pantalla está en primer plano
         cargarData();
     }
-
     protected void cargarData(){
         Retrofit retrofit = new  Retrofit.Builder()
                 .baseUrl("https://647892f6362560649a2e0949.mockapi.io/")

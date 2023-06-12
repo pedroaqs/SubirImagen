@@ -13,11 +13,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
-import com.example.hellowordsem9.models.Pokemon;
+import com.example.hellowordsem9.models.Publicacion;
+import com.example.hellowordsem9.servicios.PublicacionService;
 import com.example.hellowordsem9.servicios.ServicesWebPokemon;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,53 +30,54 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class CrearPokemonActivity extends AppCompatActivity {
+public class CrearPublicacionActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA = 1;
     private static final int OPEN_GALLERY_REQUEST = 1002;
     String urlImage = "";
+    Publicacion publicacion = new Publicacion();
+    ImageView itemImg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crear_pokemon);
-
-        Button btn = findViewById(R.id.btnCrear);
+        setContentView(R.layout.activity_crear_publicacion);
         EditText etNumero = findViewById(R.id.etNumero);
-        EditText etNombre= findViewById(R.id.etNombre);
-        EditText etTipo = findViewById(R.id.etTipo);
         Button btnCamara = findViewById(R.id.btnCamera);
         Button btnGaleria = findViewById(R.id.btnGaleria);
+        Button btn = findViewById(R.id.btnCrear);
+        itemImg = findViewById(R.id.image);
+
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("https://63746cd448dfab73a4df8801.mockapi.io/")
+                        .baseUrl("https://647892f6362560649a2e0949.mockapi.io/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
-                ServicesWebPokemon services = retrofit.create(ServicesWebPokemon.class);
-
-                Pokemon pokemon = new Pokemon();
-                pokemon.numero = String.valueOf(etNumero.getText());
-                pokemon.nombre = String.valueOf(etNombre.getText());
-                pokemon.tipo = String.valueOf(etTipo.getText());
-                pokemon.img = String.valueOf("https://demo-upn.bit2bittest.com/"+urlImage); // Obtén el enlace de la imagen desde el EditText
-
-                Call<Pokemon> call = services.create(pokemon);
+                PublicacionService services = retrofit.create(PublicacionService.class);
 
 
-                call.enqueue(new Callback<Pokemon>() {
+                publicacion.setDescripcion(String.valueOf(etNumero.getText()));
+                publicacion.setImagen(String.valueOf("https://demo-upn.bit2bittest.com/"+urlImage));// Obtén el enlace de la imagen desde el EditText
+                publicacion.setComentarios(new ArrayList<String>());
+                Call<Publicacion> call = services.create(publicacion);
+
+
+                call.enqueue(new Callback<Publicacion>() {
                     @Override
-                    public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
+                    public void onResponse(Call<Publicacion> call, Response<Publicacion> response) {
                         if (response.isSuccessful()) {
                             // La imagen se agregó correctamente a MockAPI
+                            onBackPressed();
                         } else {
                             // Hubo un error al agregar la imagen a MockAPI
+                            Log.e("Error", "Error al subir: " + response.toString());
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<Pokemon> call, Throwable t) {
+                    public void onFailure(Call<Publicacion> call, Throwable t) {
                         // Error de red o de la API
                     }
                 });
@@ -122,6 +128,12 @@ public class CrearPokemonActivity extends AppCompatActivity {
         startActivityForResult(intent, OPEN_GALLERY_REQUEST);
     }
 
+    private String convertBitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -153,6 +165,9 @@ public class CrearPokemonActivity extends AppCompatActivity {
                         Log.i("Respues", response.toString());
                         urlImage = imageResponse.getUrl();
                         Log.i("Imagen url:", urlImage);
+                        Picasso.get()
+                                .load("https://demo-upn.bit2bittest.com/"+urlImage) // Carga la imagen desde el enlace proporcionado en el objeto Libro
+                                .into(itemImg);
 
                     } else {
 
@@ -168,15 +183,6 @@ public class CrearPokemonActivity extends AppCompatActivity {
             });
 
         }
-    }
 
-    private String convertBitmapToBase64(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
-    }
-    private void imprimirImagenEnLog(String base64Image) {
-        Log.d("ImagenBase64", base64Image);
     }
 }

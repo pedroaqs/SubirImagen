@@ -51,6 +51,7 @@ public class CrearLibroActivity extends AppCompatActivity {
                     public void onResponse(Call<Libro> call, Response<Libro> response) {
                         if (response.isSuccessful()) {
                             // La imagen se agregó correctamente a MockAPI
+                            onBackPressed();
                         } else {
                             // Hubo un error al agregar la imagen a MockAPI
                         }

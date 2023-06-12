@@ -12,45 +12,39 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/imgAvatarr"
+            android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="289dp"
             tools:srcCompat="@tools:sample/avatars" />
 
         <EditText
-            android:id="@+id/etNumeroo"
+            android:id="@+id/itemdescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="TextView" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvComentarios"
+            android:layout_width="match_parent"
+            android:layout_height="258dp">
+
+        </androidx.recyclerview.widget.RecyclerView>
 
         <EditText
-            android:id="@+id/tvNombree"
-            android:layout_width="match_parent"
+            android:id="@+id/etcomentario"
+            android:layout_width="393dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="TextView" />
-
-        <EditText
-            android:id="@+id/tvTipoo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="TextView" />
-
-
-        <EditText
-            android:id="@+id/tvUrll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="TextView" />
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Nuevo comentario" />
 
         <Button
             android:id="@+id/btnEliminar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Eliminar" />
+            android:text="AgregarComentario" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

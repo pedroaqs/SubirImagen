@@ -13,7 +13,6 @@ import com.example.hellowordsem9.Adapters.pokemonAdapter;
 
 import com.example.hellowordsem9.models.Pokemon;
 import com.example.hellowordsem9.servicios.ServicesWebPokemon;
-import com.example.hellowordsem9.servicios.servicesWeb;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -38,11 +37,8 @@ public class DetallePokemonActivity extends AppCompatActivity {
         Pokemon pokemon = new Gson().fromJson(pokemonJson, Pokemon.class);
 
 
-        imgA = findViewById(R.id.imgAvatarr);
-        EditText tvnumero = findViewById(R.id.etNumeroo);
-        EditText tvnombre = findViewById(R.id.tvNombree);
-        EditText tvtipo = findViewById(R.id.tvTipoo);
-        EditText tvmUrll = findViewById(R.id.tvUrll);
+        imgA = findViewById(R.id.image);
+        EditText tvnumero = findViewById(R.id.itemdescription);
         btnEliminar = findViewById(R.id.btnEliminar);
 
         Picasso.get()
@@ -50,9 +46,6 @@ public class DetallePokemonActivity extends AppCompatActivity {
                 .into(imgA);
 
         tvnumero.setText(pokemon.numero);
-        tvnombre.setText(pokemon.nombre);
-        tvtipo.setText(pokemon.tipo);
-        tvmUrll.setText(pokemon.img);
 
         btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
