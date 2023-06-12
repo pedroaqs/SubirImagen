@@ -26,7 +26,7 @@ public interface PublicacionService {
     Call<Publicacion> create(@Body Publicacion publicacion);
 
     @PUT("publicacion/{id}")
-    Call<Void> actualizar(@Path("id") String id, @Body Publicacion publicacion);
+    Call<Publicacion> actualizar(@Path("id") String id, @Body Publicacion publicacion);
 
     @DELETE("publicacion/{id}")
     Call<Void> delete(@Path("id") String id);

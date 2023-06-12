@@ -42,7 +42,11 @@ public class Publicacion {
     }
 
     public List<String> getComentarios() {
-        return comentarios;
+        if (comentarios.size()> 0) {
+            return comentarios;
+        } else {
+            return comentarios;
+        }
     }
 
     public void setComentarios(List<String> comentarios) {

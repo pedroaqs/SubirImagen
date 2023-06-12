@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hellowordsem9.DetallePokemonActivity;
+import com.example.hellowordsem9.DetallePublicacionActivity;
 import com.example.hellowordsem9.R;
 import com.example.hellowordsem9.models.Pokemon;
 import com.example.hellowordsem9.models.Publicacion;
@@ -67,7 +68,7 @@ public class PublicacionAdapter extends RecyclerView.Adapter<PublicacionAdapter.
 
                 PublicacionService services = retrofit.create(PublicacionService.class);
                 Call<Publicacion> call=services.find(publicacion.getId());
-
+                Log.i("Llamando api", "Llamando api");
                 call.enqueue(new Callback<Publicacion>() {
                     @Override
                     public void onResponse(Call<Publicacion> call, Response<Publicacion> response) {
@@ -78,7 +79,7 @@ public class PublicacionAdapter extends RecyclerView.Adapter<PublicacionAdapter.
                             Log.i("asdasd12312", new Gson().toJson(response.body()));
                             Log.i("asd32", "Respuesta correcta por id");
 
-                            Intent intent= new Intent(vw.getContext(), DetallePokemonActivity.class);
+                            Intent intent= new Intent(vw.getContext(), DetallePublicacionActivity.class);
 
 
                             Log.i("asd32", "Respuesta correcta por id------------ ");
